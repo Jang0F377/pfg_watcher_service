@@ -1,0 +1,30 @@
+networks:
+  pfg-network:
+    name: pfg_backend_pfg-network
+    external: true
+
+services:
+  pfg-watcher-service:
+    image: pfg-watcher-service:latest
+    container_name: pfg-watcher-service
+    restart: unless-stopped
+    env_file: ./.env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - pfg-rabbitmq
+    networks:
+      - pfg-network
+
+  pfg-rabbitmq:
+    image: rabbitmq:4.0.5-alpine
+    hostname: pfg-rabbitmq
+    container_name: pfg-rabbitmq
+    volumes:
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+    restart: unless-stopped
+    ports:
+      - ${PFG_WATCHER_RABBITMQ_PORT}:${PFG_WATCHER_RABBITMQ_PORT}
+    networks:
+      - pfg-network
