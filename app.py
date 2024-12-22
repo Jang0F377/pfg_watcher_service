@@ -20,6 +20,7 @@ from pfg_watcher_service.listeners.listeners import (
     executor_event_listener,
     job_event_listener
 )
+from pfg_watcher_service.jobs.mark_sesh_finished_job import mark_sesh_finished_job
 
 
 def main():
@@ -27,6 +28,7 @@ def main():
     try:
         scheduler = get_scheduler()
         
+        # Add listeners
         scheduler.add_listener(
             scheduler_event_listener,
             EVENT_SCHEDULER_STARTED |
@@ -45,6 +47,12 @@ def main():
             EVENT_JOB_ERROR | EVENT_JOB_MISSED
         )
         
+        # Add jobs
+        scheduler.add_job(
+            func=mark_sesh_finished_job,
+            id='mark_sesh_finished_job',
+            replace_existing=True,
+        )
         
         scheduler.start()
     except (KeyboardInterrupt, SystemExit, EOFError):

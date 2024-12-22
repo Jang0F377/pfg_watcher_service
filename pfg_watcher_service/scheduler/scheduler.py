@@ -1,13 +1,12 @@
-import os
 from datetime import timezone
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 from apscheduler.executors.pool import ThreadPoolExecutor
+from pfg_watcher_service import config
 
 
-
-PFG_WATCHER_POSTGRES_URL = os.getenv("PFG_WATCHER_POSTGRES_URL")
-PFG_WATCHER_POSTGRES_TABLENAME = os.getenv("PFG_WATCHER_POSTGRES_TABLENAME")
+PFG_WATCHER_POSTGRES_URL = config.PFG_WATCHER_POSTGRES_URL
+PFG_WATCHER_POSTGRES_TABLENAME = config.PFG_WATCHER_POSTGRES_TABLENAME
 
 
 

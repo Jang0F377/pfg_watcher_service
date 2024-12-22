@@ -62,6 +62,8 @@ def executor_event_listener(event):
             log += " Added"
         case ExecutorEventCodes.REMOVED:
             log += " Removed"
+        case _:
+            log += " Unknown event"
     print(log)
 
 
@@ -82,4 +84,6 @@ def job_event_listener(event):
             log += " Error"
         case JobEventCodes.MISSED:
             log += " Missed"
+        case _:
+            log += " Unknown event"
     print(log)
